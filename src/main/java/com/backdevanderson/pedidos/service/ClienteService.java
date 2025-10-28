@@ -2,6 +2,7 @@ package com.backdevanderson.pedidos.service;
 
 
 import com.backdevanderson.pedidos.entity.Cliente;
+import com.backdevanderson.pedidos.exceptions.RecursoNaoEncontradoException;
 import com.backdevanderson.pedidos.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,11 +26,13 @@ public class ClienteService {
 
     public Cliente findById(Long id){
         return clienteRepository.findById(id).
-                orElseThrow(()->  new RuntimeException("id não encontrado"));
+                orElseThrow(()->  new RecursoNaoEncontradoException("ID não encontrado " + id));
     }
 
     public void deleteCliente(Long id){
-        clienteRepository.deleteById(id);
+        if (!clienteRepository.existsById(id)){
+            throw new RecursoNaoEncontradoException("Não foi possível excluir. Cliente com ID " + id + " não encontrado");
+        }
     }
 
     public Cliente updateCliente(Long id, Cliente cliente){

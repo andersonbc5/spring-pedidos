@@ -1,6 +1,7 @@
 package com.backdevanderson.pedidos.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -23,6 +24,15 @@ public class ItemPedido {
 
     @NotNull
     private Double precoUnitario;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "pedido_id")
+    private Pedido pedido;
+
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    private Produto produto;
 
     public Double getTotal(){
         return precoUnitario * quantidade;

@@ -1,6 +1,7 @@
 package com.backdevanderson.pedidos.service;
 
 import com.backdevanderson.pedidos.entity.Produto;
+import com.backdevanderson.pedidos.exceptions.RecursoNaoEncontradoException;
 import com.backdevanderson.pedidos.repository.ProdutoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,11 +24,13 @@ public class ProdutoService {
 
     public Produto findById(Long id){
         return produtoRepository.findById(id).
-                orElseThrow(()-> new RuntimeException("id não encontrado"));
+                orElseThrow(()-> new RecursoNaoEncontradoException("id não encontrado " + id));
     }
 
     public void deleteProduto(Long id){
-        produtoRepository.deleteById(id);
+        if (!produtoRepository.existsById(id)){
+            throw new RecursoNaoEncontradoException("Não foi possível excluir. Produto com ID " + id + " não encontrado");
+        }
     }
 
     public Produto updateProduto(Long id, Produto produto){

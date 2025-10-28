@@ -1,11 +1,15 @@
 package com.backdevanderson.pedidos.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,4 +35,9 @@ public class Cliente {
     @Pattern(regexp = "\\d{11}", message = "O CPF deve conter 11 dígitos")
     @Column(unique = true, length = 11, nullable = false)
     private String cpf;
+
+
+
+
+
 }
